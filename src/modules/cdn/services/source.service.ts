@@ -86,6 +86,10 @@ export class SourceService {
   private async fetchVideo(url: string) {
     const { uri, referer } = this.referer(url);
 
+    /**
+     * The provider returns an HTTP 302, which could be interpreted as an error.
+     * However, we still retrieve the redirect URL regardless.
+     */
     const response = await (
       await Promise.resolve(() =>
         fetch(uri, {
