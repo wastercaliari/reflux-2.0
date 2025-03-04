@@ -25,4 +25,4 @@ I appreciate your support and any feedback to help improve the addon!
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Nightfruit/reflux/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Nightfruit/reflux/blob/main/LICENSE) file for details.
