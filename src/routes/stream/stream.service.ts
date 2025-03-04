@@ -1,11 +1,13 @@
+import { EnvService } from '@/config/env.service';
 import { MediaService } from '@/modules/cdn/services/media.service';
 import { SourceService } from '@/modules/cdn/services/source.service';
-import { unhash } from '@/utils/hashing';
+import { hash, unhash } from '@/utils/hashing';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class StreamService {
   public constructor(
+    private readonly envService: EnvService,
     private readonly mediaService: MediaService,
     private readonly sourceService: SourceService,
   ) {}
@@ -18,10 +20,10 @@ export class StreamService {
     return media;
   }
 
-  public async getSerieMeta(param: string) {
+  public async getSeriesMeta(param: string) {
     const id = String(param.match(/[0-9a-fA-F]+/g)?.[0]);
     const unhashed = unhash(id);
-    const media = await this.mediaService.getSerie(unhashed, true);
+    const media = await this.mediaService.getSeries(unhashed, true);
 
     return media;
   }
@@ -32,5 +34,11 @@ export class StreamService {
     const url = await this.sourceService.get(unhashed);
 
     return url;
+  }
+
+  public formatUrl(url: string) {
+    return this.envService
+      .get('APP_URL')
+      .concat('/stream/watch/'.concat(hash(url)));
   }
 }

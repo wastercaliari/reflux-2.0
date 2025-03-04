@@ -1,6 +1,7 @@
+import { TooManyRequestsException } from '@/exceptions/too-many-requests.exception';
 import { StreamService } from '@/routes/stream/stream.service';
-import { hash } from '@/utils/hashing';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Res } from '@nestjs/common';
+import type { Response } from 'express';
 
 @Controller('/stream')
 export class StreamController {
@@ -9,14 +10,13 @@ export class StreamController {
   @Get('/movie/reflux:id.json')
   public async movies(@Param('id') id: string) {
     const meta = await this.streamService.getMovieMeta(id);
-    const stream = await this.streamService.getStream(id);
 
     return {
       streams: [
         {
           name: 'Rede Canais',
           title: meta.title,
-          url: stream,
+          url: this.streamService.formatUrl(meta.contentUrl),
         },
       ],
     };
@@ -30,7 +30,7 @@ export class StreamController {
     const season = Number(split[2]);
     const episode = Number(split[3]);
 
-    const meta = await this.streamService.getSerieMeta(id);
+    const meta = await this.streamService.getSeriesMeta(id);
 
     const currentSeason = meta.seasons.find((_, i) => i === season);
     const currentEpisode = currentSeason?.episodes?.find?.(
@@ -43,19 +43,32 @@ export class StreamController {
       };
     }
 
-    const streams = await Promise.all(
-      currentEpisode.tracks.map(async (track) => ({
-        type: track.type,
-        url: await this.streamService.getStream(hash(track.url)),
-      })),
-    );
-
     return {
-      streams: streams.map((stream) => ({
+      streams: currentEpisode.tracks.map((stream) => ({
         name: meta.title,
         title: stream.type === 'dubbed' ? 'Dublado' : 'Legendado',
-        url: stream.url,
+        url: this.streamService.formatUrl(stream.url),
       })),
     };
+  }
+
+  /**
+   * We will redirect the player here because if we leave it on the previous routes,
+   * where the user is only checking the availability of languages or content sources,
+   * there is a chance that the user won't even watch the content.
+   * Additionally, the waiting time to request the content would be unnecessarily long.
+   *
+   * In this situation, we load the content only when we're actually going to watch it,
+   * reducing the waiting time and improving the user's experience.
+   */
+  @Get('/watch/:id')
+  public async watch(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const stream = await this.streamService.getStream(id);
+
+      res.status(302).redirect(stream);
+    } catch {
+      throw new TooManyRequestsException();
+    }
   }
 }
