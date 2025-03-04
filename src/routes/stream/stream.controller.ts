@@ -63,6 +63,6 @@ export class StreamController {
   public async watch(@Param('id') id: string) {
     const stream = await this.streamService.getStream(id);
 
-    return { stream };
+    return stream;
   }
 }

@@ -1,7 +1,8 @@
 import { EnvService } from '@/config/env.service';
 import { decrypt } from '@/utils/encryption';
 import { Injectable } from '@nestjs/common';
-import { toASCII } from 'node:punycode';
+import axios, { AxiosError } from 'axios';
+import { toASCII, toUnicode } from 'node:punycode';
 
 @Injectable()
 export class SourceService {
@@ -85,18 +86,39 @@ export class SourceService {
 
   private async fetchVideo(url: string) {
     const { uri, referer } = this.referer(url);
-    console.log({ uri, referer });
-    const response = await fetch(uri, {
-      method: 'GET',
-      redirect: 'follow',
-      headers: { referer },
-    });
 
-    if (response.ok) {
-      return response.url || null;
+    try {
+      await axios.get(uri.toString(), {
+        maxRedirects: 0,
+        headers: {
+          referer,
+        },
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response.status === 302 && error.response.headers.location) {
+          delete error.response.request;
+          return JSON.stringify(error.response, null, 2);
+        }
+
+        return null;
+      }
     }
 
     return null;
+
+    // console.log({ uri, referer });
+    // const response = await fetch(uri, {
+    //   method: 'GET',
+    //   redirect: 'follow',
+    //   headers: { referer },
+    // });
+
+    // if (response.ok) {
+    //   return response.url || null;
+    // }
+
+    // return null;
   }
 
   private referer(url: string) {
