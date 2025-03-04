@@ -1,3 +1,5 @@
+![Reflux](https://raw.githubusercontent.com/Nightfruit/reflux/refs/heads/main/public/images/logo.png)
+
 # Reflux - Stremio Addon
 
 Reflux is a Stremio addon that allows users to access the catalog of the **Rede Canais** website, providing a quick and easy way to watch all the available content.
