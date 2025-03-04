@@ -1,7 +1,5 @@
-import { TooManyRequestsException } from '@/exceptions/too-many-requests.exception';
 import { StreamService } from '@/routes/stream/stream.service';
-import { Controller, Get, Param, Res } from '@nestjs/common';
-import type { Response } from 'express';
+import { Controller, Get, Param } from '@nestjs/common';
 
 @Controller('/stream')
 export class StreamController {
@@ -62,13 +60,9 @@ export class StreamController {
    * reducing the waiting time and improving the user's experience.
    */
   @Get('/watch/:id')
-  public async watch(@Param('id') id: string, @Res() res: Response) {
-    try {
-      const stream = await this.streamService.getStream(id);
+  public async watch(@Param('id') id: string) {
+    const stream = await this.streamService.getStream(id);
 
-      res.status(302).redirect(stream);
-    } catch {
-      throw new TooManyRequestsException();
-    }
+    return { stream };
   }
 }
