@@ -85,6 +85,7 @@ export class SourceService {
 
   private async fetchVideo(url: string) {
     const { uri, referer } = this.referer(url);
+    console.log({ uri, referer });
     const response = await fetch(uri, {
       method: 'GET',
       redirect: 'follow',
