@@ -18,6 +18,9 @@
     "name": "Reflux",
     "description": "Reflux permite você acessar o catálogo do site Rede Canais, proporcionando uma maneira rápida e fácil de assistir a todo o conteúdo disponível."
   },
+  "engines": {
+    "node": ">= 20.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Nightfruit/reflux"
