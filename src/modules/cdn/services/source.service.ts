@@ -94,7 +94,7 @@ export class SourceService {
           headers: { referer },
         })
           .then((response) => response.url)
-          .catch((response) => response.url),
+          .catch((response: Response) => response.headers?.get?.('location')),
       )
     )();
 
