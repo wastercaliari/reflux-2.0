@@ -14,11 +14,11 @@ export const MovieCategoryType = z.enum([
   '2024',
 ]);
 
-export const SerieCategoryType = z.enum(['featured', 'tv', 'animes']);
+export const SeriesCategoryType = z.enum(['featured', 'tv', 'animes']);
 
 export type IMovieCategoryType = z.infer<typeof MovieCategoryType>;
 
-export type ISerieCategoryType = z.infer<typeof SerieCategoryType>;
+export type ISeriesCategoryType = z.infer<typeof SeriesCategoryType>;
 
 @Injectable()
 export class ManifestService {
@@ -101,9 +101,9 @@ export class ManifestService {
     return categories.movies.find((movie) => movie.type === type);
   }
 
-  public findSerieCategory(type: ISerieCategoryType) {
+  public findSeriesCategory(type: ISeriesCategoryType) {
     const categories = this.categories();
-    return categories.series.find((serie) => serie.type === type);
+    return categories.series.find((series) => series.type === type);
   }
 
   public findMovieGenre(type: IMovieCategoryType, label: string) {
@@ -114,11 +114,11 @@ export class ManifestService {
       .items.find((item) => item.label === label);
   }
 
-  public findSerieGenre(type: ISerieCategoryType, label: string) {
+  public findSeriesGenre(type: ISeriesCategoryType, label: string) {
     const categories = this.categories();
 
     return categories.series
-      .find((serie) => serie.type === type)
+      .find((series) => series.type === type)
       .items.find((item) => item.label === label);
   }
 
@@ -140,7 +140,7 @@ export class ManifestService {
       }[];
     }[];
     series: {
-      type: ISerieCategoryType;
+      type: ISeriesCategoryType;
       label: string;
       url: string;
       items: {

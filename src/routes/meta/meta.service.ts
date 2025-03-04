@@ -35,10 +35,10 @@ export class MetaService {
     };
   }
 
-  public async getSerieMeta(param: string) {
+  public async getSeriesMeta(param: string) {
     const id = String(param.match(/[0-9a-fA-F]+/g)?.[0]);
     const unhashed = unhash(id);
-    const media = await this.mediaService.getSerie(unhashed, true);
+    const media = await this.mediaService.getSeries(unhashed, true);
 
     const videoId = 'reflux'.concat(param);
     const posterUrl = this.envService.get('API_URL').concat(media.posterUrl);

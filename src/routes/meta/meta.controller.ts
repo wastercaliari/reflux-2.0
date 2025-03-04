@@ -13,7 +13,7 @@ export class MetaController {
 
   @Get('/series/reflux:id.json')
   public async series(@Param('id') id: string) {
-    const meta = await this.metaService.getSerieMeta(id);
+    const meta = await this.metaService.getSeriesMeta(id);
     return { meta };
   }
 }

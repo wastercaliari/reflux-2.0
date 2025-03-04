@@ -1,6 +1,5 @@
 import { EnvService } from '@/config/env.service';
 import { Injectable } from '@nestjs/common';
-import { writeFileSync } from 'fs';
 
 export interface Indexes {
   contentUrl: string;

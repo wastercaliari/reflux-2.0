@@ -99,7 +99,7 @@ export class CatalogController {
     const params = new URLSearchParams(query);
     const skipParam = params.has('skip') ? Number(params.get('skip')) : 0;
 
-    const category = this.manifestService.findSerieCategory('featured');
+    const category = this.manifestService.findSeriesCategory('featured');
     const metas = await this.catalogService.getSeriesMetas(
       category.url,
       skipParam,
@@ -122,8 +122,8 @@ export class CatalogController {
     const skipParam = params.has('skip') ? Number(params.get('skip')) : 0;
     const searchParam = params.get('search');
 
-    const byCategory = this.manifestService.findSerieCategory('tv');
-    const byGenre = this.manifestService.findSerieGenre('tv', genreParam);
+    const byCategory = this.manifestService.findSeriesCategory('tv');
+    const byGenre = this.manifestService.findSeriesGenre('tv', genreParam);
 
     const url = genreParam ? byGenre.url : byCategory.url;
     const metas = searchParam
@@ -147,8 +147,8 @@ export class CatalogController {
     const skipParam = params.has('skip') ? Number(params.get('skip')) : 0;
     const searchParam = params.get('search');
 
-    const byCategory = this.manifestService.findSerieCategory('animes');
-    const byGenre = this.manifestService.findSerieGenre('animes', genreParam);
+    const byCategory = this.manifestService.findSeriesCategory('animes');
+    const byGenre = this.manifestService.findSeriesGenre('animes', genreParam);
 
     const url = genreParam ? byGenre.url : byCategory.url;
     const metas = searchParam

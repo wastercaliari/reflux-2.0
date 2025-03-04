@@ -65,7 +65,7 @@ export class CatalogService {
       replace: '%page%',
     });
 
-    const metas = this.listService.formatSerie(content);
+    const metas = this.listService.formatSeries(content);
 
     return metas;
   }
@@ -105,13 +105,13 @@ export class CatalogService {
       const reachedLimit = results.length >= limit;
 
       if (isMatching && !reachedLimit) {
-        const media = await this.mediaService.getSerie(index.contentUrl);
+        const media = await this.mediaService.getSeries(index.contentUrl);
 
         results.push(media);
       }
     }
 
-    const metas = this.mediaService.formatSerie(results);
+    const metas = this.mediaService.formatSeries(results);
 
     return metas;
   }

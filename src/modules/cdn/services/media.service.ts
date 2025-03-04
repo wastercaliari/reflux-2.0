@@ -56,7 +56,7 @@ export class MediaService {
     };
   }
 
-  public async getSerie(url: string, deep?: boolean): Promise<Media> {
+  public async getSeries(url: string, deep?: boolean): Promise<Media> {
     const { uri, referer } = this.referer(url);
     const response = await fetch(uri, {
       method: 'GET',
@@ -121,7 +121,7 @@ export class MediaService {
     })) as Meta[];
   }
 
-  public formatSerie(content: Media[]) {
+  public formatSeries(content: Media[]) {
     return content.map((media) => ({
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
@@ -199,7 +199,7 @@ export class MediaService {
             // Take episode title (paragraph is important because of this).
             const episodeTitle = $(e2).text().trim();
 
-            // Find all anchor elements links and returns it links.
+            // Find all anchor elements and returns it links.
             const episodeTracks = $(e2)
               .nextUntil('p')
               .map((_, e3) => {
@@ -208,7 +208,7 @@ export class MediaService {
                  * Usually I don't compare text, it can cause mismatching content and can broke the entire service in the future.
                  *
                  * Why am I doing at this time?
-                 * As you can see my indignation with this site above, I will save my words and just say this is the only way I known so far.
+                 * As you can see my indignation with this site above, I will save my words and just say this is the only way I know so far.
                  *
                  * TO-DO: please improve this (and everything above).
                  */

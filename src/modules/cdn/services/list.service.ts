@@ -89,7 +89,7 @@ export class ListService {
     })) as Meta[];
   }
 
-  public formatSerie(content: List[]) {
+  public formatSeries(content: List[]) {
     return content.map((media) => ({
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
