@@ -87,10 +87,15 @@ export class SourceService {
     const { uri, referer } = this.referer(url);
     const response = await fetch(uri, {
       method: 'GET',
-      headers: { referer, 'referer-policy': 'strict-origin-when-cross-origin' },
+      redirect: 'follow',
+      headers: { referer },
     });
 
-    return response.ok ? response.url : null;
+    if (response.ok) {
+      return response.url || null;
+    }
+
+    return null;
   }
 
   private referer(url: string) {
