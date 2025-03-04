@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/Nightfruit/reflux/main/public/images/logo.png =128x128)
+![REFLUX](https://raw.githubusercontent.com/Nightfruit/reflux/main/public/images/banner.png)
 
 # Reflux - Stremio Addon
 
