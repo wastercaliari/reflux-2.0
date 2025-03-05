@@ -1,6 +1,7 @@
 import { EnvService } from '@/config/env.service';
 import { MediaService } from '@/modules/cdn/services/media.service';
 import { unhash } from '@/utils/hashing';
+import { proxify } from '@/utils/proxy';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -17,9 +18,10 @@ export class MetaService {
 
     const streamTitle = media.title;
     const videoId = 'reflux'.concat(param);
-    const posterUrl = (
-      this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
-    ).concat(media.posterUrl);
+    const posterUrl = proxify(
+      this.envService.get('PROXY_URL'),
+      this.envService.get('API_URL').concat(media.posterUrl),
+    );
 
     return {
       id: videoId,
@@ -44,9 +46,10 @@ export class MetaService {
 
     const streamTitle = media.title;
     const videoId = 'reflux'.concat(param);
-    const posterUrl = (
-      this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
-    ).concat(media.posterUrl);
+    const posterUrl = proxify(
+      this.envService.get('PROXY_URL'),
+      this.envService.get('API_URL').concat(media.posterUrl),
+    );
 
     const seasons = media.seasons
       .map((season, i) =>

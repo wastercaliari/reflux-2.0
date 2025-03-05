@@ -1,11 +1,16 @@
+import { EnvService } from '@/config/env.service';
 import { TooManyRequestsException } from '@/exceptions/too-many-requests.exception';
 import { StreamService } from '@/routes/stream/stream.service';
+import { proxify } from '@/utils/proxy';
 import { Controller, Get, Param, Res } from '@nestjs/common';
 import type { Response } from 'express';
 
 @Controller('/stream')
 export class StreamController {
-  public constructor(private readonly streamService: StreamService) {}
+  public constructor(
+    private readonly envService: EnvService,
+    private readonly streamService: StreamService,
+  ) {}
 
   @Get('/movie/reflux:id.json')
   public async movies(@Param('id') id: string) {
@@ -67,9 +72,13 @@ export class StreamController {
       const stream = await this.streamService.getStream(id);
 
       if (stream) {
-        // If we have some proxy in our enviroment, we run it.
-        // Proxy is useful if we leading with DNS or VPN issues.
-        return res.status(302).redirect(this.streamService.proxyUrl(stream));
+        /**
+         * If we have some proxy in our enviroment, we run it.
+         * Proxy is useful when we leading with DNS or VPN issues.
+         */
+        return res
+          .status(302)
+          .redirect(proxify(this.envService.get('PROXY_URL'), stream));
       }
 
       throw new TooManyRequestsException();

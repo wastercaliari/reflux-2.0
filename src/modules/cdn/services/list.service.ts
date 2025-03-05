@@ -1,6 +1,7 @@
 import { EnvService } from '@/config/env.service';
 import { decrypt } from '@/utils/encryption';
 import { hash } from '@/utils/hashing';
+import { proxify } from '@/utils/proxy';
 import { Injectable } from '@nestjs/common';
 
 export interface List {
@@ -84,9 +85,10 @@ export class ListService {
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
       type: 'movie',
-      poster: (
-        this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
-      ).concat(media.posterUrl),
+      poster: proxify(
+        this.envService.get('PROXY_URL'),
+        this.envService.get('API_URL').concat(media.posterUrl),
+      ),
       genres: [],
     })) as Meta[];
   }
@@ -96,9 +98,10 @@ export class ListService {
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
       type: 'series',
-      poster: (
-        this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
-      ).concat(media.posterUrl),
+      poster: proxify(
+        this.envService.get('PROXY_URL'),
+        this.envService.get('API_URL').concat(media.posterUrl),
+      ),
       genres: [],
     })) as Meta[];
   }

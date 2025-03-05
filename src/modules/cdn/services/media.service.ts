@@ -2,6 +2,7 @@ import { EnvService } from '@/config/env.service';
 import { Meta } from '@/modules/cdn/services/list.service';
 import { decrypt } from '@/utils/encryption';
 import { hash } from '@/utils/hashing';
+import { proxify } from '@/utils/proxy';
 import { normalizeText } from '@/utils/strings';
 import { Injectable } from '@nestjs/common';
 import * as cheerio from 'cheerio';
@@ -116,9 +117,10 @@ export class MediaService {
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
       type: 'movie',
-      poster: (
-        this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
-      ).concat(media.posterUrl),
+      poster: proxify(
+        this.envService.get('PROXY_URL'),
+        this.envService.get('API_URL').concat(media.posterUrl),
+      ),
       genres: [],
     })) as Meta[];
   }
@@ -128,9 +130,10 @@ export class MediaService {
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
       type: 'series',
-      poster: (
-        this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
-      ).concat(media.posterUrl),
+      poster: proxify(
+        this.envService.get('PROXY_URL'),
+        this.envService.get('API_URL').concat(media.posterUrl),
+      ),
       genres: [],
     })) as Meta[];
   }
