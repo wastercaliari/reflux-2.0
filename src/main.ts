@@ -11,6 +11,7 @@ async function bootstrap(): Promise<void> {
   const appPort = config.get('APP_PORT');
   const appUrl = config.get('APP_URL');
   const apiUrl = config.get('API_URL');
+  const proxyUrl = config.get('PROXY_URL');
 
   app.enableCors({ origin: '*', allowedHeaders: '*', methods: '*' });
   app.disable('x-powered-by');
@@ -23,6 +24,11 @@ async function bootstrap(): Promise<void> {
     console.log('🚀 Server was successfully start.');
     console.log(`✨ Manifest URL: ${manifestUrl}`);
     console.log(`🔎 Provider URL: ${apiUrl}`);
+
+    if (proxyUrl) {
+      console.log(`🌉 Proxy URL: ${proxyUrl}`);
+    }
+
     console.log(`🔒 Environment: ${environment}`);
     console.log(`🕒 Started at: ${startDate}`);
     console.log();

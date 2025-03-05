@@ -36,9 +36,23 @@ export class StreamService {
     return url;
   }
 
+  /**
+   * Format URL to redirect to controller route, improving performance (see controller route).
+   */
   public formatUrl(url: string) {
     return this.envService
       .get('APP_URL')
       .concat('/stream/watch/'.concat(hash(url)));
+  }
+
+  /**
+   * Dealing with a proxy to bypass DNS or VPN issues.
+   */
+  public proxyUrl(url: string) {
+    if (this.envService.get('PROXY_URL')) {
+      return this.envService.get('PROXY_URL').concat(encodeURIComponent(url));
+    }
+
+    return url;
   }
 }

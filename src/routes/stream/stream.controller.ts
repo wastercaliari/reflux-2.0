@@ -67,7 +67,9 @@ export class StreamController {
       const stream = await this.streamService.getStream(id);
 
       if (stream) {
-        return res.status(302).redirect(stream);
+        // If we have some proxy in our enviroment, we run it.
+        // Proxy is useful if we leading with DNS or VPN issues.
+        return res.status(302).redirect(this.streamService.proxyUrl(stream));
       }
 
       throw new TooManyRequestsException();
