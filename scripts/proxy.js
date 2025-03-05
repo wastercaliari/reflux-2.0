@@ -1,5 +1,6 @@
 /**
  * This is an proxy to bypass DNS or VPN issues, host it wherever you want and put URL in PROXY_URL on environment file.
+ * Usually used to STREAM content.
  */
 
 const { pipeline } = require('node:stream');

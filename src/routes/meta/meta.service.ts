@@ -19,7 +19,7 @@ export class MetaService {
     const streamTitle = media.title;
     const videoId = 'reflux'.concat(param);
     const posterUrl = proxify(
-      this.envService.get('PROXY_URL'),
+      this.envService.get('THUMBNAIL_PROXY_URL'),
       this.envService.get('API_URL').concat(media.posterUrl),
     );
 
@@ -47,7 +47,7 @@ export class MetaService {
     const streamTitle = media.title;
     const videoId = 'reflux'.concat(param);
     const posterUrl = proxify(
-      this.envService.get('PROXY_URL'),
+      this.envService.get('THUMBNAIL_PROXY_URL'),
       this.envService.get('API_URL').concat(media.posterUrl),
     );
 

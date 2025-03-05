@@ -118,7 +118,7 @@ export class MediaService {
       name: media.title,
       type: 'movie',
       poster: proxify(
-        this.envService.get('PROXY_URL'),
+        this.envService.get('THUMBNAIL_PROXY_URL'),
         this.envService.get('API_URL').concat(media.posterUrl),
       ),
       genres: [],
@@ -131,7 +131,7 @@ export class MediaService {
       name: media.title,
       type: 'series',
       poster: proxify(
-        this.envService.get('PROXY_URL'),
+        this.envService.get('THUMBNAIL_PROXY_URL'),
         this.envService.get('API_URL').concat(media.posterUrl),
       ),
       genres: [],

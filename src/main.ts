@@ -11,7 +11,8 @@ async function bootstrap(): Promise<void> {
   const appPort = config.get('APP_PORT');
   const appUrl = config.get('APP_URL');
   const apiUrl = config.get('API_URL');
-  const proxyUrl = config.get('PROXY_URL');
+  const thumbnailProxyUrl = config.get('THUMBNAIL_PROXY_URL');
+  const streamingProxyUrl = config.get('STREAMING_PROXY_URL');
 
   app.enableCors({ origin: '*', allowedHeaders: '*', methods: '*' });
   app.disable('x-powered-by');
@@ -25,8 +26,12 @@ async function bootstrap(): Promise<void> {
     console.log(`✨ Manifest URL: ${manifestUrl}`);
     console.log(`🔎 Provider URL: ${apiUrl}`);
 
-    if (proxyUrl) {
-      console.log(`🌉 Proxy URL: ${proxyUrl}`);
+    if (thumbnailProxyUrl) {
+      console.log(`📷 Thumbnail Proxy URL: ${thumbnailProxyUrl}`);
+    }
+
+    if (streamingProxyUrl) {
+      console.log(`📽️ Streaming Proxy URL: ${streamingProxyUrl}`);
     }
 
     console.log(`🔒 Environment: ${environment}`);

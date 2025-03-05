@@ -73,12 +73,14 @@ export class StreamController {
 
       if (stream) {
         /**
-         * If we have some proxy in our enviroment, we run it.
+         * If we have some streaming proxy in our enviroment, we run it.
          * Proxy is useful when we leading with DNS or VPN issues.
          */
         return res
           .status(302)
-          .redirect(proxify(this.envService.get('PROXY_URL'), stream));
+          .redirect(
+            proxify(this.envService.get('STREAMING_PROXY_URL'), stream),
+          );
       }
 
       throw new TooManyRequestsException();
