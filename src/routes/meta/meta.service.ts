@@ -15,9 +15,11 @@ export class MetaService {
     const unhashed = unhash(id);
     const media = await this.mediaService.getMovie(unhashed);
 
-    const videoId = 'reflux'.concat(param);
-    const posterUrl = this.envService.get('API_URL').concat(media.posterUrl);
     const streamTitle = media.title;
+    const videoId = 'reflux'.concat(param);
+    const posterUrl = (
+      this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
+    ).concat(media.posterUrl);
 
     return {
       id: videoId,
@@ -40,9 +42,11 @@ export class MetaService {
     const unhashed = unhash(id);
     const media = await this.mediaService.getSeries(unhashed, true);
 
-    const videoId = 'reflux'.concat(param);
-    const posterUrl = this.envService.get('API_URL').concat(media.posterUrl);
     const streamTitle = media.title;
+    const videoId = 'reflux'.concat(param);
+    const posterUrl = (
+      this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
+    ).concat(media.posterUrl);
 
     const seasons = media.seasons
       .map((season, i) =>

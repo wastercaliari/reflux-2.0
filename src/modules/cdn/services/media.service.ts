@@ -116,7 +116,9 @@ export class MediaService {
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
       type: 'movie',
-      poster: this.envService.get('API_URL').concat(media.posterUrl),
+      poster: (
+        this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
+      ).concat(media.posterUrl),
       genres: [],
     })) as Meta[];
   }
@@ -126,7 +128,9 @@ export class MediaService {
       id: `reflux:${hash(media.contentUrl)}`,
       name: media.title,
       type: 'series',
-      poster: this.envService.get('API_URL').concat(media.posterUrl),
+      poster: (
+        this.envService.get('PROXY_URL') ?? this.envService.get('API_URL')
+      ).concat(media.posterUrl),
       genres: [],
     })) as Meta[];
   }
